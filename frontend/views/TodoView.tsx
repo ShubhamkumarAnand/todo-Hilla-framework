@@ -3,6 +3,7 @@ import Todo from "Frontend/generated/com/example/application/Todo";
 import {TodoEndpoint} from "Frontend/generated/endpoints";
 import {TextField} from "@hilla/react-components/TextField.js";
 import {Button} from "@hilla/react-components/Button.js";
+import {Checkbox} from "@hilla/react-components/Checkbox.js";
 
 export default function TodoView() {
     const [todos, setTodos] = useState<Todo[]>([])
@@ -29,7 +30,12 @@ export default function TodoView() {
                 <TextField value={task} onChange={e => setTask(e.target.value)}/>
                 <Button theme="primary" onClick={addTodo}>Add Task</Button>
             </div>
-
+            {todos.map(todo => (
+                <div key={todo.id} className='p-m'>
+                    <Checkbox checked={todo.isDone}/>
+                    <span>{todo.task}</span>
+                </div>
+            ))}
         </div>
     );
 };
