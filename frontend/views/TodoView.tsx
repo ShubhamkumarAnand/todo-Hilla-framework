@@ -21,6 +21,15 @@ export default function TodoView() {
         }
     }
 
+    async function updateTodo(todo: Todo, isDone: boolean) {
+        const saved = await TodoEndpoint.update({
+            ...todo, isDone
+        });
+        if (saved) {
+            setTodos(todos.map(existing => existing.id === saved.id ? saved : existing));
+        }
+    }
+
     return (
         <div className="p-m">
             <h1>
@@ -32,7 +41,8 @@ export default function TodoView() {
             </div>
             {todos.map(todo => (
                 <div key={todo.id} className='p-m'>
-                    <Checkbox checked={todo.isDone}/>
+                    <Checkbox checked={todo.isDone} className='mr-m'
+                              onCheckedChanged={e => updateTodo(todo, e.detail.value)}/>
                     <span>{todo.task}</span>
                 </div>
             ))}
